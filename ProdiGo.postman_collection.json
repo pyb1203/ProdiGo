@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "f7116ee5-e8af-4f7e-983a-3108c455b75a",
+		"name": "ProdiGo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24852400"
+	},
+	"item": [
+		{
+			"name": "Profile_Module",
+			"item": [
+				{
+					"name": "Register Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "vishal",
+									"type": "text"
+								},
+								{
+									"key": "email_id",
+									"value": "pyb@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "VK@1203",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{profile}}/register_customer/",
+							"host": [
+								"{{profile}}"
+							],
+							"path": [
+								"register_customer",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products_Module",
+			"item": [
+				{
+					"name": "List of Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{products}}/get_categories/",
+							"host": [
+								"{{products}}"
+							],
+							"path": [
+								"get_categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{products}}/get_products/",
+							"host": [
+								"{{products}}"
+							],
+							"path": [
+								"get_products",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders_Module",
+			"item": [
+				{
+					"name": "Place Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token fc0ba855fee49a8c7f366b2e42898fe060bb9521",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "products",
+									"value": "[1, 3, 10, 2, 15]",
+									"type": "text"
+								},
+								{
+									"key": "quantities",
+									"value": "[10, 3, 5, 2, 1]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{orders}}/place_order/",
+							"host": [
+								"{{orders}}"
+							],
+							"path": [
+								"place_order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of an Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token fc0ba855fee49a8c7f366b2e42898fe060bb9521",
+								"type": "text"
+							},
+							{
+								"key": "Order-Id",
+								"value": "PG926770",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{orders}}/get_order_details/",
+							"host": [
+								"{{orders}}"
+							],
+							"path": [
+								"get_order_details",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Orders Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token fc0ba855fee49a8c7f366b2e42898fe060bb9521",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{orders}}/get_customer_orders/",
+							"host": [
+								"{{orders}}"
+							],
+							"path": [
+								"get_customer_orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Orders Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{orders}}/get_all_orders/",
+							"host": [
+								"{{orders}}"
+							],
+							"path": [
+								"get_all_orders",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recommendations_Module",
+			"item": [
+				{
+					"name": "Recommeded Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{recommendations}}/get_recommended_products/13/",
+							"host": [
+								"{{recommendations}}"
+							],
+							"path": [
+								"get_recommended_products",
+								"13",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base",
+			"value": "http://127.0.0.1:8000/",
+			"type": "string"
+		},
+		{
+			"key": "profile",
+			"value": "http://127.0.0.1:8000/api/profile",
+			"type": "string"
+		},
+		{
+			"key": "products",
+			"value": "http://127.0.0.1:8000/api/products",
+			"type": "string"
+		},
+		{
+			"key": "orders",
+			"value": "http://127.0.0.1:8000/api/orders",
+			"type": "string"
+		},
+		{
+			"key": "recommendations",
+			"value": "http://127.0.0.1:8000/api/recommendations",
+			"type": "string"
+		}
+	]
+}
