@@ -5,7 +5,7 @@ import datetime as dt
 from Products_Module.create_random_products import populate_products_model
 
 @shared_task(bind=True)
-def create_random_products_task(start_time, end_time):
+def create_random_products_task(self, start_time, end_time):
 
     # Check if the current time is between the start and end time
 

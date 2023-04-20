@@ -30,7 +30,7 @@ admin.site.index_title = "Welcome to ProdiGo Admin Panel"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/profile/', include('Profile_Module.api.urls')),
-    # path('api/products/', include('Products_Module.api.urls')),
+    path('api/products/', include('Products_Module.api.urls')),
     path('api/orders/', include('Orders_Module.api.urls')),
     path('api/recommendations/', include('Recommendations_Module.api.urls'))
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
