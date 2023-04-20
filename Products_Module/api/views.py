@@ -39,7 +39,7 @@ class ProductView(APIView):
             products = Product.objects.all().values(
                 'id',
                 'title',
-                'category__name',
+                'category__name'
                 'description',     
                 'price',
                 'image_url'
