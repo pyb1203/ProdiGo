@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db import transaction
 from faker import Faker
 import random as rd
 import string
@@ -15,42 +16,58 @@ def generate_order_id():
 
     return order_id
 
+@transaction.atomic
 def populate_orders_model():
+    sid = transaction.savepoint()
+    
+    try:
 
-    # Creating an instance of the faker module
+        # Creating an instance of the faker module
 
-    fake = Faker()
+        fake = Faker()
 
-    # Populating user model with fake users data
+        # Populating user model with fake users data
 
-    for _ in range(10):
-        profile = fake.simple_profile()
+        for _ in range(10):
+            profile = fake.simple_profile()
 
-        User.objects.create_user(
-            username = profile['username'],
-            first_name = profile['name'],
-            email = profile['mail']
-        )
-
-    # Populating order model and product in order model with fake orders data
-
-    users = User.objects.all()
-    products = Product.objects.all()
-
-    for _ in range(40):
-        order_id = generate_order_id()
-
-        if not Order.objects.filter(order_id=order_id).exists(): 
-            order = Order.objects.create(
-                user = fake.random_element(users),
-                order_id = order_id,
-                total_quantity = fake.random_int(1, 50),
-                total_price = fake.pydecimal(left_digits=5, right_digits=2, positive=True)
+            User.objects.create_user(
+                username = profile['username'],
+                first_name = profile['name'],
+                email = profile['mail']
             )
 
-            for _ in range(fake.random_int(1, 10)):
-                ProductInOrder(
-                    order = order,
-                    product = fake.random_element(products),
-                    quantity = fake.random_int(1, 15)
+        # Populating order model and product in order model with fake orders data
+
+        users = User.objects.all()
+        products = Product.objects.all()
+
+        for _ in range(60):
+            order_id = generate_order_id()
+
+            if not Order.objects.filter(order_id=order_id).exists(): 
+                order = Order.objects.create(
+                    user = fake.random_element(users),
+                    order_id = order_id,
+                    total_quantity = fake.random_int(1, 50),
+                    total_price = fake.pydecimal(left_digits=5, right_digits=2, positive=True)
                 )
+
+                for _ in range(fake.random_int(1, 10)):
+                    ProductInOrder.objects.create(
+                        order = order,
+                        product = fake.random_element(products),
+                        quantity = fake.random_int(1, 15)
+                    )
+
+        transaction.savepoint_commit(sid)
+
+        return "Success"
+
+    except Exception as e:
+        transaction.savepoint_rollback(sid)
+
+        return e
+
+
+        

@@ -16,6 +16,10 @@ from dotenv import load_dotenv, find_dotenv
 
 from pathlib import Path
 
+import datetime as dt
+
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -151,6 +155,41 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+# RabbitMQ Configuration
+
+RABBITMQ_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+
+# Celery Configuration
+
+CELERY_BROKER_URL = RABBITMQ_BROKER_URL
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXPIRES = 3600
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_SOFT_TIME_LIMIT = 15 * 60
+
+# Celery Beat Configuration
+
+CELERY_BEAT_SCHEDULE = {
+    'create-random-products-every-hour':{
+        'task': 'Products_Module.tasks.create_random_products_task',
+        'schedule': crontab(minute='0', hour='*/2', day_of_week='*'), # run at even hours on each day of the week
+        'args': [dt.time(8), dt.time(17)] # run between 8 am to 5 pm
+    },
+    'place-random-orders-every-hour':{
+        'task': 'Orders_Module.tasks.place_random_orders_task',
+        'schedule': crontab(minute='0', hour='1-23/2', day_of_week='*'), # run at odd hours on each day of the week
+        'args': [dt.time(9), dt.time(18)] # run between 9 am to 6 pm
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)
