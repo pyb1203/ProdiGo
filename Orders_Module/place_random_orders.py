@@ -48,17 +48,30 @@ def populate_orders_model():
             if not Order.objects.filter(order_id=order_id).exists(): 
                 order = Order.objects.create(
                     user = fake.random_element(users),
-                    order_id = order_id,
-                    total_quantity = fake.random_int(1, 50),
-                    total_price = fake.pydecimal(left_digits=5, right_digits=2, positive=True)
+                    order_id = order_id
                 )
 
+                total_quantity = 0
+                total_price = 0
+
                 for _ in range(fake.random_int(1, 10)):
-                    ProductInOrder.objects.create(
+                    product_in_order = ProductInOrder.objects.create(
                         order = order,
                         product = fake.random_element(products),
-                        quantity = fake.random_int(1, 15)
+                        quantity = fake.random_int(1, 25)
                     )
+
+                    total_quantity += product_in_order.quantity
+                    total_price += (product_in_order.quantity * product_in_order.product.price)
+
+                order.total_quantity = total_quantity
+                order.total_price = total_price
+                order.save(
+                    update_fields=[
+                        'total_quantity',
+                        'total_price'
+                    ]
+                )
 
         transaction.savepoint_commit(sid)
 

@@ -25,7 +25,7 @@ class ProductInOrder(models.Model):
     ordered_timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} in Order #{self.order.order_id}"
+        return f"{self.quantity} x {self.product.title} in Order #{self.order.order_id}"
 
     class Meta:
         verbose_name = "Product Ordered"
