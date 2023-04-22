@@ -54,3 +54,5 @@ py manage.py create_products_script
 py manage.py place_orders_script
 
 12. Finally, download and install the postman from its official website https://www.postman.com/downloads/ and import my postman colection which is the json file in the postman to the test the APIs.
+
+13. Also, please mail me on emailID vishalkhandelwal750@gmail.com regarding the requirement of .env file, I will share you the .env file of this project.
